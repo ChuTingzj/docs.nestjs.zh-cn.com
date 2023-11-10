@@ -39,37 +39,37 @@ export class CatsController {
 
 > info **提示** 为了使用`CLI`创建一个`controller`， 仅仅只需要执行 `$ nest g controller [name]` 这个命令
 
-`@Get()` 这个在 `findAll()` 方法之前的HTTP请求的方法装饰器告诉 `Nest` 去为一个HTTP请求的指定端点创建一个处理函数。 这个端点对应着HTTP请求方法(在这个例子中是GET请求) 和路由路径。什么是路由路径? The route path for a handler is determined by concatenating the (optional) prefix declared for the controller, and any path specified in the method's decorator. Since we've declared a prefix for every route ( `cats`), and haven't added any path information in the decorator, Nest will map `GET /cats` requests to this handler. As mentioned, the path includes both the optional controller path prefix **and** any path string declared in the request method decorator. For example, a path prefix of `cats` combined with the decorator `@Get('breed')` would produce a route mapping for requests like `GET /cats/breed`.
+`@Get()` 这个在 `findAll()` 方法之前的HTTP请求的方法装饰器告诉 `Nest` 去为一个HTTP请求的指定端点创建一个处理函数。 这个端点对应着HTTP请求方法(在这个例子中是GET请求) 和路由路径。什么是路由路径? 一个处理函数的路由路径是通过为 `controller` 声明的前缀(可选的)来决定的， 以及任何在方法的装饰器中指定的任何路径。字串我们为每一个路由 ( `cats`) 声明了一个前缀，并且还没有在装饰器中添加任何路径信息， `Nest` 将会映射 `GET /cats` 请求到这个处理函数。 正如前面提到的，路径同时包括了可选的 `controller` 路径前缀 **以及** 任何在请求方法的装饰器中声明的路径字符串。 例如，一个以 `cats` 为前缀的路径和 `@Get('breed')` 这个装饰器相组合将会为请求产生一个路由映射就像 `GET /cats/breed`。
 
-In our example above, when a GET request is made to this endpoint, Nest routes the request to our user-defined `findAll()` method. Note that the method name we choose here is completely arbitrary. We obviously must declare a method to bind the route to, but Nest doesn't attach any significance to the method name chosen.
+在我们上面的例子中，当一个 `GET` 请求到达这个端点， `Nest` 会将请求路由至我们用户定义的 `findAll()` 方法。 注意这里我们选择的这个方法名是完全任意的。 很明显，我们必须声明一个方法去绑定这个路由，但是 `Nest` 不会为这个选中的方法名附加任何签名。
 
-This method will return a 200 status code and the associated response, which in this case is just a string. Why does that happen? To explain, we'll first introduce the concept that Nest employs two **different** options for manipulating responses:
+这个方法将会返回一个200的状态码以及相关联的响应，在这个例子中响应只是一个字符串。 为什么会这样? 为了解释这个，我们将首先介绍 `Nest` 使用两种不同的选项来操纵响应的这个概念:
 
 <table>
   <tr>
-    <td>Standard (recommended)</td>
+    <td>标准的 (推荐)</td>
     <td>
-      Using this built-in method, when a request handler returns a JavaScript object or array, it will <strong>automatically</strong>
-      be serialized to JSON. When it returns a JavaScript primitive type (e.g., <code>string</code>, <code>number</code>, <code>boolean</code>), however, Nest will send just the value without attempting to serialize it. This makes response handling simple: just return the value, and Nest takes care of the rest.
+      使用这些内置的方法，当一个请求处理函数返回一个<code>JavaScript</code>对象或数组时， 返回值就会<strong>自动地</strong>
+      被序列化成<code>JSON</code>。当返回值是一个<code>JavaScript</code>原始类型时(例如, <code>string</code>, <code>number</code>, <code>boolean</code>), 尽管如此, `Nest` 仅仅会返回它而没有尝试进行序列化。 这使得处理响应变得简单: 仅仅返回这个值，然后剩下的就交给 <code>Nest</code>。
       <br />
-      <br /> Furthermore, the response's <strong>status code</strong> is always 200 by default, except for POST
-      requests which use 201. We can easily change this behavior by adding the <code>@HttpCode(...)</code>
-      decorator at a handler-level (see <a href='controllers#status-code'>Status codes</a>).
+      <br /> 此外，这个响应的 <strong>状态码</strong> 默认总是200， 除了对于POST
+      请求使用201。我们可以轻松的改变这样的行为通过在处理函数上添加<code>@HttpCode(...)</code>
+      装饰器(请看 <a href='controllers#status-code'>Status codes</a>).
     </td>
   </tr>
   <tr>
-    <td>Library-specific</td>
+    <td>库特有的</td>
     <td>
-      We can use the library-specific (e.g., Express) <a href="https://expressjs.com/en/api.html#res" rel="nofollow" target="_blank">response object</a>, which can be injected using the <code>@Res()</code> decorator in the method handler signature (e.g., <code>findAll(@Res() response)</code>).  With this approach, you have the ability to use the native response handling methods exposed by that object.  For example, with Express, you can construct responses using code like <code>response.status(200).send()</code>.
+      我么可以使用库特有的 (例如, Express) <a href="https://expressjs.com/en/api.html#res" rel="nofollow" target="_blank">响应对象</a>，这些响应对象可以被注入通过使用 <code>@Res()</code> 装饰器在方法处理函数的签名上 (例如, <code>findAll(@Res() response)</code>).  通过这种方式, 你能够使用这个对象暴露的原生的响应处理方法。例如，通过 <code>Express</code>，你可以使用代码构造响应就像 <code>response.status(200).send()</code>.
     </td>
   </tr>
 </table>
 
-> warning **Warning** Nest detects when the handler is using either `@Res()` or `@Next()`, indicating you have chosen the library-specific option. If both approaches are used at the same time, the Standard approach is **automatically disabled** for this single route and will no longer work as expected. To use both approaches at the same time (for example, by injecting the response object to only set cookies/headers but still leave the rest to the framework), you must set the `passthrough` option to `true` in the `@Res({{ '{' }} passthrough: true {{ '}' }})` decorator.
+> warning **警告** 当处理函数正在使用 `@Res()` 或者 `@Next()`时，`Nest` 将会检测，指示你已经选择了 `library-specific(译为:库特有的)` 的方式。如果这两种方式同时被使用，标准的方式会被 **自动地禁止** 对于这个单一的路由，并且将不在如预期的那样工作。为了同时使用这两种方式 (例如，通过注入 <code>response</code> 对象去只设置 `cookies/headers` 但是仍然将留下的交给框架)，你必须在 `@Res({{ '{' }} passthrough: true {{ '}' }})` 装饰器中设置 `passthrough` 选项为 `true`。
 
 <app-banner-devtools></app-banner-devtools>
 
-#### Request object
+#### 请求对象
 
 Handlers often need access to the client **request** details. Nest provides access to the [request object](https://expressjs.com/en/api.html#req) of the underlying platform (Express by default). We can access the request object by instructing Nest to inject it by adding the `@Req()` decorator to the handler's signature.
 
