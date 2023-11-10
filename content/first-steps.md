@@ -1,12 +1,12 @@
-### First steps
+### 第一步
 
-In this set of articles, you'll learn the **core fundamentals** of Nest. To get familiar with the essential building blocks of Nest applications, we'll build a basic CRUD application with features that cover a lot of ground at an introductory level.
+在这篇文章中,您将会了解到 `Nest` 的 **核心基础**。为了熟悉 `Nest` 应用的基本构建模块, 我们将会构建一个基本的 `CRUD` 应用并附带一些涵盖了很多入门级别的内容的特性。
 
-#### Language
+#### 语言
 
-We're in love with [TypeScript](https://www.typescriptlang.org/), but above all - we love [Node.js](https://nodejs.org/en/). That's why Nest is compatible with both TypeScript and **pure JavaScript**. Nest takes advantage of the latest language features, so to use it with vanilla JavaScript we need a [Babel](https://babeljs.io/) compiler.
+我们钟爱于 [TypeScript](https://www.typescriptlang.org/), 但最主要的是 - 我们喜欢   [Node.js](https://nodejs.org/en/)。 那就是为什么 `Nest` 同时兼容 `TypeScript` 和 `JavaScript`。 `Nest` 利用了最新的语言特性, 所以为了在 `Nest` 中使用原生的 `Javascript` 我们需要一个[Babel](https://babeljs.io/) 编译器.
 
-We'll mostly use TypeScript in the examples we provide, but you can always **switch the code snippets** to vanilla JavaScript syntax (simply click to toggle the language button in the upper right hand corner of each snippet).
+在我们提供的例子中我们通常使用 `TypeScript` , but you can always **switch the code snippets** to vanilla JavaScript syntax (simply click to toggle the language button in the upper right hand corner of each snippet).
 
 #### Prerequisites
 
