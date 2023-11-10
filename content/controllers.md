@@ -1,18 +1,18 @@
-### Controllers
+### Controllers控制器
 
-Controllers are responsible for handling incoming **requests** and returning **responses** to the client.
+`Controllers` 负责处理到来的 **请求** 并且返回 **响应** 给到客户端。
 
 <figure><img src="/assets/Controllers_1.png" /></figure>
 
-A controller's purpose is to receive specific requests for the application. The **routing** mechanism controls which controller receives which requests. Frequently, each controller has more than one route, and different routes can perform different actions.
+一个 `controller` 的目的就是为应用去接受特定的请求。 这个 **路由** 机制控制着`controller`接受到的每一个请求。通常，每一个`controller` 拥有不止一个路由，并且不同的路由可以执行不同的动作。
 
-In order to create a basic controller, we use classes and **decorators**. Decorators associate classes with required metadata and enable Nest to create a routing map (tie requests to the corresponding controllers).
+为了创建一个基本的`controller`，我们使用 `classes` 和 **decorators装饰器**。 装饰器将`classes`和必要的元数据连系在一起并且允许 `Nest` 去创建一个路由的映射(将请求与对应的 `controllers` 绑定).
 
-> info **Hint** For quickly creating a CRUD controller with the [validation](https://docs.nestjs.com/techniques/validation) built-in, you may use the CLI's [CRUD generator](https://docs.nestjs.com/recipes/crud-generator#crud-generator): `nest g resource [name]`.
+> info **提示** 为了快速的创建一个带有 `CRUD` 的 `controller` 并带有内置的[验证](https://docs.nestjs.com/techniques/validation)，你可以使用 `CLI` 的 [CRUD 生成器](https://docs.nestjs.com/recipes/crud-generator#crud-generator): `nest g resource [name]`.
 
-#### Routing
+#### 路由
 
-In the following example we'll use the `@Controller()` decorator, which is **required** to define a basic controller. We'll specify an optional route path prefix of `cats`. Using a path prefix in a `@Controller()` decorator allows us to easily group a set of related routes, and minimize repetitive code. For example, we may choose to group a set of routes that manage interactions with a cat entity under the route `/cats`. In that case, we could specify the path prefix `cats` in the `@Controller()` decorator so that we don't have to repeat that portion of the path for each route in the file.
+在下面的例子中我们将使用 `@Controller()` 装饰器，这对定义一个基本的 `controller` 是**必要的**。 我们会指定一个可选的路由路径以 `cats` 为前缀。使用一个路径前缀在一个 `@Controller()` 装饰器中允许我们很容易的为一组相关联的路由分组，并且使重复的代码降到最低。例如， 在 `/cats` 这个路由之下，我们会选择为一组路由分组用于管理和猫咪的交互。 在那个例子中， 我们在 `@Controller()` 装饰器中指定了路径前缀 `cats` ，这样我们就不需要在文件中重复书写这个路径。
 
 ```typescript
 @@filename(cats.controller)
@@ -37,9 +37,9 @@ export class CatsController {
 }
 ```
 
-> info **Hint** To create a controller using the CLI, simply execute the `$ nest g controller [name]` command.
+> info **提示** 为了使用`CLI`创建一个`controller`， 仅仅只需要执行 `$ nest g controller [name]` 这个命令
 
-The `@Get()` HTTP request method decorator before the `findAll()` method tells Nest to create a handler for a specific endpoint for HTTP requests. The endpoint corresponds to the HTTP request method (GET in this case) and the route path. What is the route path? The route path for a handler is determined by concatenating the (optional) prefix declared for the controller, and any path specified in the method's decorator. Since we've declared a prefix for every route ( `cats`), and haven't added any path information in the decorator, Nest will map `GET /cats` requests to this handler. As mentioned, the path includes both the optional controller path prefix **and** any path string declared in the request method decorator. For example, a path prefix of `cats` combined with the decorator `@Get('breed')` would produce a route mapping for requests like `GET /cats/breed`.
+`@Get()` 这个在 `findAll()` 方法之前的HTTP请求的方法装饰器告诉 `Nest` 去为一个HTTP请求的指定端点创建一个处理函数。 这个端点对应着HTTP请求方法(在这个例子中是GET请求) 和路由路径。什么是路由路径? The route path for a handler is determined by concatenating the (optional) prefix declared for the controller, and any path specified in the method's decorator. Since we've declared a prefix for every route ( `cats`), and haven't added any path information in the decorator, Nest will map `GET /cats` requests to this handler. As mentioned, the path includes both the optional controller path prefix **and** any path string declared in the request method decorator. For example, a path prefix of `cats` combined with the decorator `@Get('breed')` would produce a route mapping for requests like `GET /cats/breed`.
 
 In our example above, when a GET request is made to this endpoint, Nest routes the request to our user-defined `findAll()` method. Note that the method name we choose here is completely arbitrary. We obviously must declare a method to bind the route to, but Nest doesn't attach any significance to the method name chosen.
 

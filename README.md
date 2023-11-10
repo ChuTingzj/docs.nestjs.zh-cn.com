@@ -18,6 +18,12 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+## 目前翻译进度
+1. ✔ INTRODUCTION
+2. OVERVIEW
+   + ✔ First steps
+  
+
 ## 访问
 ### 通过在线地址
 1. [`Vercel`](https://docs-nestjs-zh-cn-com.vercel.app/)
