@@ -130,7 +130,7 @@ npm run start:dev
 
 #### 语法检查和格式化
 
-[CLI](/cli/overview) 尽最大努力去构建可靠的大规模开发工作流。 因此， 一个生成的 `Nest` 项目预先安装了代码的 **语法检查工具** 和 **格式化工具** (分别时 [eslint](https://eslint.org/) 和 [prettier](https://prettier.io/)).
+[CLI](/cli/overview) 尽最大努力去构建可靠的大规模开发工作流。 因此， 一个生成的 `Nest` 项目预先安装了代码的 **语法检查工具** 和 **格式化工具** (分别是 [eslint](https://eslint.org/) 和 [prettier](https://prettier.io/)).
 
 > info **提示** 不清楚语法检查和格式化的作用? 了解差异 [这里](https://prettier.io/docs/en/comparison.html).
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "deploy:tencent-cloud": "./scripts/deploy-tencent-cloud.sh",
+    "deploy:tencent-cloud": "sh ./scripts/deploy-tencent-cloud.sh",
     "ng": "ng",
     "prestart": "npm run docs",
     "start": "ng serve",
