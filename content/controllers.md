@@ -71,7 +71,7 @@ export class CatsController {
 
 #### 请求对象
 
-Handlers often need access to the client **request** details. Nest provides access to the [request object](https://expressjs.com/en/api.html#req) of the underlying platform (Express by default). We can access the request object by instructing Nest to inject it by adding the `@Req()` decorator to the handler's signature.
+处理函数经常需要访问客户端 **请求** 的详细信息。 `Nest` 提供了对于底层平台(默认为 `Express` )的 [请求对象](https://expressjs.com/en/api.html#req) 的访问。 我们可以访问请求对象通过添加 `@Req()` 装饰器在处理函数的签名里以告知 `Nest` 去注入请求对象。
 
 ```typescript
 @@filename(cats.controller)
@@ -98,9 +98,9 @@ export class CatsController {
 }
 ```
 
-> info **Hint** In order to take advantage of `express` typings (as in the `request: Request` parameter example above), install `@types/express` package.
+> info **提示** 为了利用 `express` 的完整类型提示(就像上面的例子中的 `request: Request`)，可以安装 `@types/express` 这个包。
 
-The request object represents the HTTP request and has properties for the request query string, parameters, HTTP headers, and body (read more [here](https://expressjs.com/en/api.html#req)). In most cases, it's not necessary to grab these properties manually. We can use dedicated decorators instead, such as `@Body()` or `@Query()`, which are available out of the box. Below is a list of the provided decorators and the plain platform-specific objects they represent.
+请求对象代表着带有 `query`参数、`param`参数、`header`、`body`等各种属性 (阅读更多 [这里](https://expressjs.com/en/api.html#req)) 的HTTP请求。 在大多数场景中，没有必要去手动获取这些信息。我们可以使用专门的装饰器，例如 `@Body()` 或者 `@Query()`，这些装饰器可以让我们不必进入请求对象内部去访问这些属性。 下面是一个提供的装饰器的列表以及他们表示的特定平台的普通对象。
 
 <table>
   <tbody>
@@ -146,13 +146,13 @@ The request object represents the HTTP request and has properties for the reques
   </tbody>
 </table>
 
-<sup>\* </sup>For compatibility with typings across underlying HTTP platforms (e.g., Express and Fastify), Nest provides `@Res()` and `@Response()` decorators. `@Res()` is simply an alias for `@Response()`. Both directly expose the underlying native platform `response` object interface. When using them, you should also import the typings for the underlying library (e.g., `@types/express`) to take full advantage. Note that when you inject either `@Res()` or `@Response()` in a method handler, you put Nest into **Library-specific mode** for that handler, and you become responsible for managing the response. When doing so, you must issue some kind of response by making a call on the `response` object (e.g., `res.json(...)` or `res.send(...)`), or the HTTP server will hang.
+为了与底层的HTTP平台类型兼容(例如， Express 和 Fastify)， `Nest` 提供了 `@Res()` 和 `@Response()` 装饰器。 `@Res()` 只是 `@Response()` 的别名。两者都直接暴露了底层的原生平台的 `response` 对象接口。当使用它们时，你需要为底层的库引入类型(例如， `@types/express`) 以获得更好的类型提示。注意，当你在一个方法处理函数内注入 `@Res()` 或者 `@Response()` 时，你需要使 `Nest` 进入 **Library-specific(译为:特定库) 模式** 为那个处理函数，之后你将负责管理 `response`。当这样做时，你必须通过调用 `response` 对象上的一些方法(例如， `res.json(...)` or `res.send(...)`)来做出响应，否则HTTP 服务器会挂起。
 
-> info **Hint** To learn how to create your own custom decorators, visit [this](/custom-decorators) chapter.
+> info **提示** 为了了解如何书写你自己的装饰器，访问 [这个章节](/custom-decorators)。
 
-#### Resources
+#### 资源
 
-Earlier, we defined an endpoint to fetch the cats resource (**GET** route). We'll typically also want to provide an endpoint that creates new records. For this, let's create the **POST** handler:
+早些时候，我们定义了一个端点来获得一些猫咪的资源 (**GET** 路由)。 我们通常也会想要提供一个端点用于创建一条新的记录。为了实现这个需求，让我们创建 **POST** 处理函数:
 
 ```typescript
 @@filename(cats.controller)
@@ -187,11 +187,11 @@ export class CatsController {
 }
 ```
 
-It's that simple. Nest provides decorators for all of the standard HTTP methods: `@Get()`, `@Post()`, `@Put()`, `@Delete()`, `@Patch()`, `@Options()`, and `@Head()`. In addition, `@All()` defines an endpoint that handles all of them.
+这是一个例子。 `Nest` 提供了所有的HTTP方法的装饰器： `@Get()`, `@Post()`, `@Put()`, `@Delete()`, `@Patch()`, `@Options()`, 以及 `@Head()`。 另外， `@All()` 这个装饰器定义了一个端点用于处理所有的HTTP方法。
 
-#### Route wildcards
+#### 路由通配符
 
-Pattern based routes are supported as well. For instance, the asterisk is used as a wildcard, and will match any combination of characters.
+基于模式匹配的路由也同样支持。 例如，星号常常被用作通配符，可以匹配任意字符组合。
 
 ```typescript
 @Get('ab*cd')
@@ -200,13 +200,13 @@ findAll() {
 }
 ```
 
-The `'ab*cd'` route path will match `abcd`, `ab_cd`, `abecd`, and so on. The characters `?`, `+`, `*`, and `()` may be used in a route path, and are subsets of their regular expression counterparts. The hyphen ( `-`) and the dot (`.`) are interpreted literally by string-based paths.
+`'ab*cd'` 这个路由将会匹配 `abcd`， `ab_cd`， `abecd`， 等等。 字符 `?`， `+`， `*`， 以及 `()` 都可以被用在路由的路径当中，和是对应正则表达式的子集。连字符 ( `-`) 以及 点符号 (`.`) 都会被基于字符串的路径按字面意义解析。
 
-> warning **Warning** A wildcard in the middle of the route is only supported by express.
+> warning **警告** `express` 仅仅支持位于路由中间的通配符。
 
-#### Status code
+#### 状态码
 
-As mentioned, the response **status code** is always **200** by default, except for POST requests which are **201**. We can easily change this behavior by adding the `@HttpCode(...)` decorator at a handler level.
+如之前所述，响应 **状态码** 默认总是 **200** ，除了对于POST 请求使用 **201** 。我们可以轻松的改变这样的行为通过在处理函数上添加 `@HttpCode(...)` 装饰器。
 
 ```typescript
 @Post()
@@ -216,13 +216,13 @@ create() {
 }
 ```
 
-> info **Hint** Import `HttpCode` from the `@nestjs/common` package.
+> info **提示** 从 `@nestjs/commn` 这个包中引入 `HttpCode` 这个装饰器
 
-Often, your status code isn't static but depends on various factors. In that case, you can use a library-specific **response** (inject using `@Res()`) object (or, in case of an error, throw an exception).
+通常，你的状态码不会是静态的，这依赖于各种因素。在这种情况下，你可以使用指定库的 **response** (通过使用 `@Res()` 注入) 对象 (或者, 以防错误, 可以引发异常)。
 
-#### Headers
+#### 头信息
 
-To specify a custom response header, you can either use a `@Header()` decorator or a library-specific response object (and call `res.header()` directly).
+为了指定一个定制化的头信息，你既可以使用 `@Header()` 装饰器也可以通过指定库的 `response` 对象(直接调用 `res.header()`)。
 
 ```typescript
 @Post()
@@ -232,22 +232,22 @@ create() {
 }
 ```
 
-> info **Hint** Import `Header` from the `@nestjs/common` package.
+> info **提示** 从 `@nestjs/commn` 这个包中引入 `Header` 这个装饰器
 
-#### Redirection
+#### 重定向
 
-To redirect a response to a specific URL, you can either use a `@Redirect()` decorator or a library-specific response object (and call `res.redirect()` directly).
+为了重定向一个 `response` 至一个指定的 `URL`，你既可以使用 `@Redirect()` 装饰器也可以使用指定库的 `response` 对象 (直接调用 `res.redirect()`)。
 
-`@Redirect()` takes two arguments, `url` and `statusCode`, both are optional. The default value of `statusCode` is `302` (`Found`) if omitted.
+`@Redirect()` 拥有两个参数， `url` 和 `statusCode`，两者都是可选的。默认的 `statusCode` 是 `302` 如果省略。
 
 ```typescript
 @Get()
 @Redirect('https://nestjs.com', 301)
 ```
 
-> info **Hint** Sometimes you may want to determine the HTTP status code or the redirect URL dynamically. Do this by returning an object following the `HttpRedirectResponse` interface (from `@nestjs/common`).
+> info **提示** 有时，你可能想要动态地决定HTTP的状态码或者重定向的 `URL` 。 通过返回一个对象(参考 `HttpRedirectResponse` 这个接口 (来自 `@nestjs/common`)。
 
-Returned values will override any arguments passed to the `@Redirect()` decorator. For example:
+返回的值将会重写传递给 `@Redirect()` 装饰器内的参数。 例如：
 
 ```typescript
 @Get('docs')
