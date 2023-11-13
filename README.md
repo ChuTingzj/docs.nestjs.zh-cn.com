@@ -23,6 +23,7 @@
 2. OVERVIEW
    + ✔ First steps
    + ✔ Controllers
+   + ✔ Providers
   
 
 ## 访问
