@@ -50,13 +50,7 @@ nest new project-name
 
 ```typescript
 @@filename(main)
-
-import
-{
-  NestFactory
-}
-from
-'@nestjs/core';
+import{ NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -65,22 +59,16 @@ async function bootstrap() {
 }
 
 bootstrap();
-@@
-switch
-  import
-  {
-    NestFactory
-  }
-    from
-    '@nestjs/core';
-  import { AppModule } from './app.module';
+@@switch
+import{ NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 
-  async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-    await app.listen(3000);
-  }
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3000);
+}
 
-    bootstrap();
+  bootstrap();
 ```
 
 为了创建一个 `Nest` 应用实例， 我们使用了 `NestFactory` 这个核心类。 `NestFactory` 向外暴露了一些静态方法以允许创建一个应用实例。 这个 `create()` 方法返回一个应用对象， 其实现了 `INestApplication` 这个接口. 这个对象提供了一系列方法，这将会在接下来的章节中介绍。 在上面的 `main.ts` 例子中，我们仅仅启动了我们的 `HTTP` 监听器， 这使得应用可以等待到达的 `HTTP` 请求.
